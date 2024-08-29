@@ -2,6 +2,31 @@
 {% block title %}Accounts{% endblock %}
 {% block content %}
 
+<div class="mb-3">
+    <table class="table table-light table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Account Type</th>
+                <th scope="col">Account Description</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <form action="/account_delete" method="POST">
+                <td><button class="btn btn-danger mx-2" value="{{ row[0] }}" name="delete">Delete</button></td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 <div class="mb-3"></div>
 <form method="POST">
     <div class="row g-2">

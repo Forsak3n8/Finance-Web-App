@@ -43,6 +43,22 @@ class db_helper:
         except pymysql.Error as e:
             print("Accounts query failed %d: %s" %(e.args[0], e.args[1]))
 
+    def account_delete_query(self, sql):
+        try:
+            self.__connect_to_finance__()
+
+            if self.con.open == True:
+                self.cur.execute(sql)
+                self.con.commit()
+                self.__disconnect__()
+                print('Account Deleted')
+
+            elif self.con.open == False:
+                print('Connection Failed')
+
+        except pymysql.Error as e:
+            print("Database creation failed %d: %s" %(e.args[0], e.args[1]))
+
 
     # creates database if connection is valid and database does not already exist
     def create_database(self):
