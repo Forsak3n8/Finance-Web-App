@@ -43,7 +43,7 @@ class db_helper:
         except pymysql.Error as e:
             print("Accounts query failed %d: %s" %(e.args[0], e.args[1]))
 
-    def account_delete_query(self, sql):
+    def account_change_query(self, sql):
         try:
             self.__connect_to_finance__()
 
@@ -51,7 +51,7 @@ class db_helper:
                 self.cur.execute(sql)
                 self.con.commit()
                 self.__disconnect__()
-                print('Account Deleted')
+                print('Account Table changed')
 
             elif self.con.open == False:
                 print('Connection Failed')

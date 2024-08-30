@@ -2,7 +2,7 @@
 {% block title %}Accounts{% endblock %}
 {% block content %}
 
-<div class="mb-3">
+<div class="mt-5">
     <table class="table table-light table-striped">
         <thead>
             <tr>
@@ -18,37 +18,26 @@
                 <td>{{ row[0] }}</td>
                 <td>{{ row[1] }}</td>
                 <td>{{ row[2] }}</td>
-                <form action="/account_delete" method="POST">
-                <td><button class="btn btn-danger mx-2" value="{{ row[0] }}" name="delete">Delete</button></td>
-                </form>
+                <td>
+                    <div class=btn-toolbar>
+                        <form class=btn-group action="/account_edit" method="POST">
+                            <button class="btn btn-primary" value="{{ row }}" name="edit">Edit</button>
+                            <i></i>
+                        </form>
+                        <form class=btn-group action="/account_delete" method="POST">
+                            <i></i>
+                            <button class="btn btn-danger" value="{{ row[0] }}" name="delete">Delete</button>
+                        </form>
+                    </div>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <form action="/add_account">
+    <button class="btn btn-primary mx-2" value="add_account" name="add_account">Add Account</button>
+    </form>
 </div>
 
-<div class="mb-3"></div>
-<form method="POST">
-    <div class="row g-2">
-        <div class="col-md">
-            <div class="form-floating">
-                <select class="form-select" id="account_type" name="account_type">
-                    <option selected="">None</option>
-                    <option value="1">Checking Account</option>
-                    <option value="2">Saving Account</option>
-                    <option value="3">Credit Account</option>
-                </select>
-                <label for="account_type">Select account type</label>
-            </div>
-        </div>
-        <div class="col-md">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="account_description" placeholder="" name="account_description">
-                <label for="account_description">Account Description</label>
-            </div>
-            <div class="mb-3"></div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </form>
 {% endblock %}
 

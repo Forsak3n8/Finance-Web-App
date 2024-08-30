@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Create Account{% endblock %}
+{% block content %}
+
+<div class="mb-3"></div>
+<form method="POST">
+    <div class="row g-2">
+        <div class="col-md">
+            <div class="form-floating">
+                <select class="form-select" id="account_type" name="account_type">
+                    <option selected="">None</option>
+                    <option value="Checking Account">Checking Account</option>
+                    <option value="Saving Account">Saving Account</option>
+                    <option value="Credit Account">Credit Account</option>
+                </select>
+                <label for="account_type">Select account type</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="account_description" placeholder="" name="account_description">
+                <label for="account_description">Account Description</label>
+            </div>
+            <div class="mb-3"></div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+{% endblock %}
