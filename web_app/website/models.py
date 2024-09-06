@@ -26,6 +26,7 @@ class db_helper:
     def __disconnect__(self):
         self.con.close()
 
+    # account query to populate dynamic table in /accounts route
     def accounts_query(self, sql):
         try:
             self.__connect_to_finance__()
@@ -38,11 +39,12 @@ class db_helper:
                 return results
         
             elif self.con.open == False:
-                print('Accounts query failed')
+                print('Accounts query connection issue')
             
         except pymysql.Error as e:
-            print("Accounts query failed %d: %s" %(e.args[0], e.args[1]))
+            print("Accounts query failed with exception: %d: %s" %(e.args[0], e.args[1]))
 
+    # account query to delete or edit account in database
     def account_change_query(self, sql):
         try:
             self.__connect_to_finance__()
@@ -51,13 +53,13 @@ class db_helper:
                 self.cur.execute(sql)
                 self.con.commit()
                 self.__disconnect__()
-                print('Account Table changed')
+                print('Account table change success')
 
             elif self.con.open == False:
-                print('Connection Failed')
+                print('Account table change connection issue')
 
         except pymysql.Error as e:
-            print("Database creation failed %d: %s" %(e.args[0], e.args[1]))
+            print("Account table change failed with exception: %d: %s" %(e.args[0], e.args[1]))
 
 
     # creates database if connection is valid and database does not already exist
@@ -71,13 +73,13 @@ class db_helper:
                 self.cur.execute(sql)
                 self.con.commit()
                 self.__disconnect__()
-                print('Database Created')
+                print('Database created')
 
             elif self.con.open == False:
-                print('Connection Failed')
+                print('Database creation connection issue')
 
         except pymysql.Error as e:
-            print("Database creation failed %d: %s" %(e.args[0], e.args[1]))
+            print("Database creation failed with exception: %d: %s" %(e.args[0], e.args[1]))
 
     # creates tables in database if connection is valid and tables do not already exist
     def create_tables(self):
@@ -100,13 +102,13 @@ class db_helper:
                 self.cur.execute(category_null)
                 self.con.commit()
                 self.__disconnect__()
-                print('Tables Created')
+                print('Tables created')
 
             elif self.con.open == False:
-                print('Connection Failed')
+                print('Table creation connection issue')
 
         except pymysql.Error as e:
-            print("Table creation failed %d: %s" %(e.args[0], e.args[1]))
+            print("Table creation failed with exception: %d: %s" %(e.args[0], e.args[1]))
 
     # creates daterange with pandas and loads data into created tables if connection is valid and data does not already exist
     def create_daterange(self):
@@ -146,10 +148,10 @@ class db_helper:
                 self.cur.execute(drop)
                 self.con.commit()
                 self.__disconnect__()
-                print('Daterange Created')
+                print('Daterange created')
 
             elif self.con.open == False:
-                print('Connection Failed')
+                print('Daterange creation connection issue')
 
         except pymysql.Error as e:
-            print("Daterange creation failed %d: %s" %(e.args[0], e.args[1]))
+            print("Daterange creation failed with exception: %d: %s" %(e.args[0], e.args[1]))
