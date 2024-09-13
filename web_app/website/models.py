@@ -19,7 +19,7 @@ class db_helper:
     
     # secondary connection for after database creation
     def __connect_to_finance__(self):
-        self.con = pymysql.connect(host=self.host, user=self.user, password=self.password, database=self.database, autocommit=self.autocommit)
+        self.con = pymysql.connect(host=self.host, user=self.user, password=self.password, database=self.database, autocommit=self.autocommit, cursorclass=pymysql.cursors.DictCursor)
         self.cur = self.con.cursor()
 
     # disconnects from database
@@ -27,7 +27,7 @@ class db_helper:
         self.con.close()
 
     # account query to populate dynamic table in /accounts route
-    def accounts_query(self, sql):
+    def database_query(self, sql):
         try:
             self.__connect_to_finance__()
 
@@ -35,14 +35,14 @@ class db_helper:
                 self.cur.execute(sql)
                 results = self.cur.fetchall()
                 self.__disconnect__()
-                print('Accounts query success')
+                print('Query success')
                 return results
         
             elif self.con.open == False:
-                print('Accounts query connection issue')
+                print('Query connection issue')
             
         except pymysql.Error as e:
-            print("Accounts query failed with exception: %d: %s" %(e.args[0], e.args[1]))
+            print("Query failed with exception: %d: %s" %(e.args[0], e.args[1]))
 
     # account query to delete or edit account in database
     def account_change_query(self, sql):
