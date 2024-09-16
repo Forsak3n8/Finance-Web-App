@@ -62,4 +62,4 @@ def transaction_types():
     if request.method == 'GET':
         sql = 'SELECT * FROM `transaction_type`'
         results = db.database_query(sql)
-    return render_template("accounts.html", results=results)
+    return render_template("transaction_types.html", results=results)
