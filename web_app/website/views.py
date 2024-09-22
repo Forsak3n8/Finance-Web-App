@@ -63,3 +63,74 @@ def transaction_types():
         sql = 'SELECT * FROM `transaction_type`'
         results = db.database_query(sql)
     return render_template("transaction_types.html", results=results)
+
+@views.route('/transaction_types_edit', methods=['GET', 'POST'])
+def transaction_types_edit():
+    if request.method == 'POST':
+        transaction_type_id = request.form.get('transaction_type_id')
+        transaction_type_description = request.form.get('transaction_type_description')
+        transaction_is_purchase = request.form.get('transaction_is_purchase')
+        sql = f"UPDATE `transaction_type` SET transaction_type_description = '{transaction_type_description}', transaction_is_purchase = '{transaction_is_purchase}' WHERE transaction_type_id = '{transaction_type_id}'"
+        db.account_change_query(sql)
+        flash('Transaction type edited', category='success')
+        return redirect(url_for('views.transaction_types'))
+         
+    return redirect(url_for('views.transaction_types'))
+
+@views.route('/transaction_types_delete', methods=['GET', 'POST'])
+def transaction_types_delete():
+    if request.method == 'POST':
+        transaction_type_id = request.form.get('delete')
+        sql = f'DELETE FROM `transaction_type` WHERE transaction_type_id = {transaction_type_id}'
+        db.account_change_query(sql)
+        flash('Transaction type deleted', category='success')
+    return redirect(url_for('views.transaction_types'))
+
+@views.route('/transaction_types_add', methods=['GET', 'POST'])
+def transaction_types_add():
+    if request.method == 'POST':
+        transaction_type_description = request.form.get('transaction_type_description')
+        transaction_is_purchase = request.form.get('transaction_is_purchase')
+        sql = f"INSERT INTO `transaction_type`(`transaction_type_description`, `transaction_is_purchase`) VALUES ('{transaction_type_description}', '{transaction_is_purchase}')"
+        db.account_change_query(sql)
+        flash('Transaction type added', category='success')
+        return redirect(url_for('views.transaction_types'))
+
+    return redirect(url_for('views.transaction_types'))
+
+@views.route('/categories', methods=['GET'])
+def categories():   
+    if request.method == 'GET':
+        sql = 'SELECT * FROM `category`'
+        results = db.database_query(sql)
+    return render_template("categories.html", results=results)
+
+@views.route('/categories_edit', methods=['GET', 'POST'])
+def categories_edit():
+    if request.method == 'POST':
+        category_id = request.form.get('category_id')
+        category_description = request.form.get('category_description')
+        category_essential = request.form.get('category_essential')
+        sql = f"UPDATE `category` SET category_description = '{category_description}', category_essential = '{category_essential}' WHERE category_id = '{category_id}'"
+        db.account_change_query(sql)
+        flash('Category updated', category='success')
+        return redirect(url_for('views.categories'))
+    
+@views.route('/categories_delete', methods=['GET', 'POST'])
+def categories_delete():
+    if request.method == 'POST':
+        category_id = request.form.get('delete')
+        sql = f'DELETE FROM `category` WHERE category_id = {category_id}'
+        db.account_change_query(sql)
+        flash('Category deleted', category='success')
+    return redirect(url_for('views.categories'))
+
+@views.route('/categories_add', methods=['GET', 'POST'])
+def categories_add():
+    if request.method == 'POST':
+        category_description = request.form.get('category_description')
+        category_essential = request.form.get('category_essential')
+        sql = f"INSERT INTO `category`(`category_description`, `category_essential`) VALUES ('{category_description}', '{category_essential}')"
+        db.account_change_query(sql)
+        flash('Category added', category='success')
+        return redirect(url_for('views.categories'))

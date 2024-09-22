@@ -16,13 +16,13 @@
         </a>
     </li>
     <li>
-        <a href="/transaction_types" class="nav-link active" aria-current="page">
+        <a href="/transaction_types" class="nav-link text-white" aria-current="page">
             <i class="bi bi-cash-coin"></i>
             Transaction Types
         </a>
     </li>
     <li>
-        <a href="/categories" class="nav-link text-white">
+        <a href="/categories" class="nav-link active" aria-current="page">
           <i class="bi bi-tags-fill"></i>
           Categories
         </a>
@@ -39,61 +39,61 @@
         <table class="table table-dark table align-middle table-sm table-borderless">
             <thead>
                 <tr>
-                    <th class="bg-dark-subtle" scope="col">Transaction Type Description</th>
-                    <th class="bg-dark-subtle" scope="col">Transaction is a purchase</th>
+                    <th class="bg-dark-subtle" scope="col">Category Description</th>
+                    <th class="bg-dark-subtle" scope="col">Category is essential</th>
                     <th class="bg-dark-subtle" scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for row in results %}
                 <tr>
-                    <td class="align-middle bg-dark-subtle">{{ row.transaction_type_description }}</td>
-                    <td class="align-middle bg-dark-subtle">{{ row.transaction_is_purchase }}</td>
-                    <td class="bg-dark-subtle"><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-{{ row.transaction_type_id }}">Edit</button>
-                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ row.transaction_type_id }}">Delete</button>
+                    <td class="align-middle bg-dark-subtle">{{ row.category_description }}</td>
+                    <td class="align-middle bg-dark-subtle">{{ row.category_essential }}</td>
+                    <td class="bg-dark-subtle"><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-{{ row.category_id }}">Edit</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ row.category_id }}">Delete</button>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         <hr>
-        <button type="button" class="btn btn-outline-success btn-sm float-end" data-bs-toggle="modal" data-bs-target="#addModal">Add Transaction Type</button>
+        <button type="button" class="btn btn-outline-success btn-sm float-end" data-bs-toggle="modal" data-bs-target="#addModal">Add Category</button>
     </div>
 </div>
 
 {% for row in results %}
 <!-- Edit modal -->
-<div class="modal fade" id="editModal-{{ row.transaction_type_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" id="editModal-{{ row.category_id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editModalLabel">Editing: "{{ row.transaction_type_description }}"</h1>
+                <h1 class="modal-title fs-5" id="editModalLabel">Editing: "{{ row.category_description }}"</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
         <!-- Edit modal content -->
-    <form class="needs-validation" action="/transaction_types_edit" method="POST" novalidate>
+    <form class="needs-validation" action="/categories_edit" method="POST" novalidate>
         <div class="modal-body">
             <div class="row g-2">
                 <div class="col-md">
                     <div class="form-floating">
-                        <input type="hidden" id="transaction_type_id" name="transaction_type_id" value="{{ row.transaction_type_id }}">
-                        <input type="text" class="form-control" id="transaction_type_description" placeholder="" value="{{ row.transaction_type_description }}" name="transaction_type_description" required>
+                        <input type="hidden" id="category_id" name="category_id" value="{{ row.category_id }}">
+                        <input type="text" class="form-control" id="category_description" placeholder="" value="{{ row.category_description }}" name="category_description" required>
                         <div class="invalid-feedback">
                             Please create a description.
                         </div>
-                        <label for="transaction_type_description">Transaction type description</label>
+                        <label for="category_description">Category Description</label>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class="form-floating">
-                        <select class="form-select" id="transaction_is_purchase" name="transaction_is_purchase" required>
-                            <option value="1" {% if row.transaction_is_purchase == 1 %} selected {% endif %}>True</option>
-                            <option value="0"{% if row.transaction_is_purchase == 0 %} selected {% endif %}>False</option>
+                        <select class="form-select" id="category_essential" name="category_essential" required>
+                            <option value="1" {% if row.category_essential == 1 %} selected {% endif %}>True</option>
+                            <option value="0"{% if row.category_essential == 0 %} selected {% endif %}>False</option>
                         </select>
                         <div class="invalid-feedback">
                             Select if purchase.
                         </div>
-                        <label for="transaction_is_purchase">Transaction is a purchase</label>
+                        <label for="transaction_is_purchase">Category is essential</label>
                     </div>
                 </div>
             </div>
@@ -112,7 +112,7 @@
 
 {% for row in results %}
 <!-- Delete modal -->
-<div class="modal fade" id="deleteModal-{{ row.transaction_type_id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal-{{ row.category_id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -121,13 +121,13 @@
             </div>
         <!-- Delete modal content -->
         <div class="modal-body">
-        Are you sure you want to delete "{{ row.transaction_type_description }}"?
+        Are you sure you want to delete "{{ row.category_description }}"?
         </div>
         <!-- End of delete modal content-->
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <form action="/transaction_types_delete" method="POST">
-            <button class="btn btn-danger" value="{{ row.transaction_type_id }}" name="delete">Confirm Delete</button>
+            <form action="/categories_delete" method="POST">
+            <button class="btn btn-danger" value="{{ row.category_id }}" name="delete">Confirm Delete</button>
             </form>
         </div>
         </div>
@@ -141,25 +141,25 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="addModalLabel">Add Transaction Type</h1>
+                <h1 class="modal-title fs-5" id="addModalLabel">Add Category</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
         <!-- Add modal content -->
-        <form class="needs-validation" action="/transaction_types_add" method="POST" novalidate>
+        <form class="needs-validation" action="/categories_add" method="POST" novalidate>
         <div class="modal-body">
             <div class="row g-2">
                 <div class="col-md">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="transaction_type_description" placeholder="" name="transaction_type_description" required>
-                        <label for="transaction_type_description">Transaction Type Description</label>
+                        <input type="text" class="form-control" id="category_description" placeholder="" name="category_description" required>
+                        <label for="category_description">Category Description</label>
                         <div class="invalid-feedback">
-                            Please select a account type.
+                            Enter category description.
                         </div>
                     </div>
                 </div>
                 <div class="col-md">
                     <div class="form-floating">
-                        <select class="form-select" id="transaction_is_purchase" name="transaction_is_purchase" required>
+                        <select class="form-select" id="category_essential" name="category_essential" required>
                             <option selected disabled value="">Choose...</option>
                             <option value="1">True</option>
                             <option value="0">False</option>
@@ -167,7 +167,7 @@
                         <div class="invalid-feedback">
                             Please enter an account description.
                         </div>
-                        <label for="transaction_is_purchase">Transaction is a purchase</label>
+                        <label for="category_essential">Category is essential</label>
                     </div>
                 </div>
             </div>
