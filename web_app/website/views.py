@@ -1,8 +1,14 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-import json
 from .models import db_helper
 import pandas as pd
 import re as re
+
+# define upload path and allowed extensions for data upload
+ALLOWED_EXTENSIONS = {'csv'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # initialize views
 views = Blueprint('views', __name__)
@@ -115,6 +121,7 @@ def categories_edit():
         db.account_change_query(sql)
         flash('Category updated', category='success')
         return redirect(url_for('views.categories'))
+    return redirect(url_for('views.categories'))
     
 @views.route('/categories_delete', methods=['GET', 'POST'])
 def categories_delete():
@@ -123,6 +130,7 @@ def categories_delete():
         sql = f'DELETE FROM `category` WHERE category_id = {category_id}'
         db.account_change_query(sql)
         flash('Category deleted', category='success')
+        return redirect(url_for('views.categories'))
     return redirect(url_for('views.categories'))
 
 @views.route('/categories_add', methods=['GET', 'POST'])
@@ -134,3 +142,26 @@ def categories_add():
         db.account_change_query(sql)
         flash('Category added', category='success')
         return redirect(url_for('views.categories'))
+    return redirect(url_for('views.categories'))
+    
+@views.route('/import_data', methods=['GET'])
+def import_data():
+    if request.method == 'GET':
+        sql = 'SELECT * FROM `accounts`'
+        results = db.database_query(sql)
+    return render_template("import_data.html", results=results)
+
+@views.route('/import_data_staging', methods=['GET', 'POST'])
+def import_data_staging():
+    if request.method == 'POST':
+        file = request.files['file']
+        if 'file' not in request.files:
+            flash('No file part', category='error')
+            return redirect(url_for('views.import_data'))
+        if file.filename == '':
+            flash('No file selected', category='error')
+            return redirect(url_for('views.import_data'))
+        if file and allowed_file(file.filename):
+            df = pd.read_csv(file)
+            return render_template("import_data_staging.html", df=df)
+    return render_template("import_data_staging.html")

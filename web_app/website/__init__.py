@@ -1,6 +1,7 @@
 from flask import Flask
 from .models import db_helper
 
+
 # define and initialize app variable
 def create_app():
     app = Flask(__name__)

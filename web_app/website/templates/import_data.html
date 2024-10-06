@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Accounts{% endblock %}
+
+{% block nav %}
+<ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item">
+        <a href="/" class="nav-link text-white">
+            <i class="bi bi-bar-chart-fill"></i>
+            Dashboard
+        </a>
+    </li>
+    <li>
+        <a href="/accounts" class="nav-link text-white">
+            <i class="bi bi-person-fill"></i>
+            Accounts
+        </a>
+    </li>
+    <li>
+        <a href="/transaction_types" class="nav-link text-white">
+            <i class="bi bi-cash-coin"></i>
+            Transaction Types
+        </a>
+    </li>
+    <li>
+        <a href="/categories" class="nav-link text-white">
+          <i class="bi bi-tags-fill"></i>
+          Categories
+        </a>
+      </li>
+      <li>
+        <a href="/import_data" class="nav-link active" aria-current="page">
+          <i class="bi bi-database-fill-add"></i>
+          Import Data
+        </a>
+      </li>
+</ul>
+{% endblock%}
+
+{% block content %}
+
+<div class="card mt-5 p-1 bg-dark-subtle border border-0">
+    <div class="card-body">
+        <h5 class="card-title">Import Data</h5>
+        <hr>
+        <form class="needs-validation" action="/import_data_staging" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="container">
+                <div class="row row-cols-2">
+                    <div class="col">
+                        <div class="p-3">
+                            <label for="account_association">Select an account association</label>
+                            <select class="form-select" id="account_association" name="account_type" required>
+                                <option selected disabled value="">Choose...</option>
+                                {% for row in results %}
+                                <option value="{{ row.account_description }}">{{ row.account_description }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select an associated account.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="p-3">
+                            <label for="file" class="form-label">Upload an associated CSV file</label>
+                            <input class="form-control" type="file" accept=".csv" name="file" id="file" required>
+                            <div class="invalid-feedback">
+                                Please select a valid CSV file.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <hr>
+        <button type="submit" class="btn btn-outline-success btn-sm float-end">Upload</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
+
+{% endblock %}

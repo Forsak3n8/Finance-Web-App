@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Accounts{% endblock %}
+
+{% block nav %}
+<ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item">
+        <a href="/" class="nav-link text-white">
+            <i class="bi bi-bar-chart-fill"></i>
+            Dashboard
+        </a>
+    </li>
+    <li>
+        <a href="/accounts" class="nav-link text-white">
+            <i class="bi bi-person-fill"></i>
+            Accounts
+        </a>
+    </li>
+    <li>
+        <a href="/transaction_types" class="nav-link text-white">
+            <i class="bi bi-cash-coin"></i>
+            Transaction Types
+        </a>
+    </li>
+    <li>
+        <a href="/categories" class="nav-link text-white">
+          <i class="bi bi-tags-fill"></i>
+          Categories
+        </a>
+      </li>
+      <li>
+        <a href="/import_data" class="nav-link active" aria-current="page">
+          <i class="bi bi-database-fill-add"></i>
+          Import Data
+        </a>
+      </li>
+</ul>
+{% endblock%}
+
+{% block content %}
+{{ df.to_html() | safe }}
+{% endblock %}
