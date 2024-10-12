@@ -155,13 +155,11 @@ def import_data():
 def import_data_staging():
     if request.method == 'POST':
         file = request.files['file']
-        if 'file' not in request.files:
-            flash('No file part', category='error')
-            return redirect(url_for('views.import_data'))
-        if file.filename == '':
-            flash('No file selected', category='error')
-            return redirect(url_for('views.import_data'))
         if file and allowed_file(file.filename):
-            df = pd.read_csv(file)
-            return render_template("import_data_staging.html", df=df)
-    return render_template("import_data_staging.html")
+                try:
+                    df = pd.read_csv(file)
+                    return render_template("import_data_staging.html", df=df)
+                except pd.errors.EmptyDataError:
+                    flash('File cannot be parsed.', category='error')
+                    return redirect(url_for('views.import_data'))
+    return redirect(url_for('views.import_data'))

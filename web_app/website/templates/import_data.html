@@ -47,7 +47,29 @@
                 <div class="row row-cols-2">
                     <div class="col">
                         <div class="p-3">
-                            <label for="account_association">Select an account association</label>
+                            <label for="file" class="form-label">Upload an associated CSV file</label>
+                            <input class="form-control" type="file" accept=".csv" name="file" id="file" required>
+                            <div class="invalid-feedback">
+                                Please select a valid CSV file.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="p-3">
+                            <label for="account_association" class="form-label">Select import type.</label>
+                            <select class="form-select" id="account_association" name="account_type" required>
+                                <option selected disabled value="">Choose...</option>
+                                <option value="new_import">New Import Type</option>
+                                <option value="existing_import">Existing Import Type</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select an import type.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="p-3">
+                            <label for="account_association" class="form-label">Select an account association</label>
                             <select class="form-select" id="account_association" name="account_type" required>
                                 <option selected disabled value="">Choose...</option>
                                 {% for row in results %}
@@ -61,10 +83,10 @@
                     </div>
                     <div class="col">
                         <div class="p-3">
-                            <label for="file" class="form-label">Upload an associated CSV file</label>
-                            <input class="form-control" type="file" accept=".csv" name="file" id="file" required>
+                            <label for="csv_association" class="form-label">Enter name for CSV file association</label>
+                            <input type="text" class="form-control" id="csv_association" placeholder="" name="csv_association" required>
                             <div class="invalid-feedback">
-                                Please select a valid CSV file.
+                                Please enter a name for CSV file association.
                             </div>
                         </div>
                     </div>
