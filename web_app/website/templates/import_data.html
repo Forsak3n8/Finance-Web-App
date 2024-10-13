@@ -56,8 +56,8 @@
                     </div>
                     <div class="col">
                         <div class="p-3">
-                            <label for="account_association" class="form-label">Select import type.</label>
-                            <select class="form-select" id="account_association" name="account_type" required>
+                            <label for="import_type" class="form-label">Select import type.</label>
+                            <select class="form-select" id="import_type" name="import_type" required>
                                 <option selected disabled value="">Choose...</option>
                                 <option value="new_import">New Import Type</option>
                                 <option value="existing_import">Existing Import Type</option>
@@ -69,10 +69,10 @@
                     </div>
                     <div class="col">
                         <div class="p-3">
-                            <label for="account_association" class="form-label">Select an account association</label>
-                            <select class="form-select" id="account_association" name="account_type" required>
+                            <label id="account_association_label" for="account_association" class="form-label" style="display:none">Select an account association</label>
+                            <select class="form-select" id="account_association" name="account_association" style="display:none" required>
                                 <option selected disabled value="">Choose...</option>
-                                {% for row in results %}
+                                {% for row in account_results %}
                                 <option value="{{ row.account_description }}">{{ row.account_description }}</option>
                                 {% endfor %}
                             </select>
@@ -83,10 +83,24 @@
                     </div>
                     <div class="col">
                         <div class="p-3">
-                            <label for="csv_association" class="form-label">Enter name for CSV file association</label>
-                            <input type="text" class="form-control" id="csv_association" placeholder="" name="csv_association" required>
+                            <label id="csv_association_label" for="csv_association" class="form-label" style="display:none">Enter name for CSV file association</label>
+                            <input type="text" class="form-control" id="csv_association" placeholder="" name="csv_association" style="display:none" required>
                             <div class="invalid-feedback">
                                 Please enter a name for CSV file association.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="p-3">
+                            <label id="csv_association_select_label" for="csv_association_select" class="form-label" style="display:none">Select an previous csv association</label>
+                            <select class="form-select" id="csv_association_select" name="csv_association_select" style="display:none" required>
+                                <option selected disabled value="">Choose...</option>
+                                {% for row in association_results %}
+                                <option value="{{ row.association_description }}">{{ row.association_description }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select an previous csv association.
                             </div>
                         </div>
                     </div>
@@ -118,6 +132,36 @@
     }, false)
   })
 })()
+</script>
+
+<script>
+    var import_check = document.getElementById("import_type");
+    import_check.onchange=import_change;
+    function import_change()
+    {   
+    var import_check = document.getElementById("import_type");
+    var selected_value = import_check.options[import_check.selectedIndex].value;
+
+
+    if (selected_value == "new_import")
+    {
+        document.getElementById("account_association_label").style.display = "block";
+        document.getElementById("account_association").style.display = "block";
+        document.getElementById("csv_association_label").style.display = "block";
+        document.getElementById("csv_association").style.display = "block";
+        document.getElementById("csv_association_select_label").style.display = "none";
+        document.getElementById("csv_association_select").style.display = "none";
+    }
+    else
+    {
+        document.getElementById("account_association_label").style.display = "none";
+        document.getElementById("account_association").style.display = "none";
+        document.getElementById("csv_association_label").style.display = "none";
+        document.getElementById("csv_association").style.display = "none";
+        document.getElementById("csv_association_select_label").style.display = "block";
+        document.getElementById("csv_association_select").style.display = "block";
+    }
+}
 </script>
 
 {% endblock %}

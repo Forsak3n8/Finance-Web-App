@@ -147,9 +147,11 @@ def categories_add():
 @views.route('/import_data', methods=['GET'])
 def import_data():
     if request.method == 'GET':
-        sql = 'SELECT * FROM `accounts`'
-        results = db.database_query(sql)
-    return render_template("import_data.html", results=results)
+        sql1 = 'SELECT * FROM `accounts`'
+        account_results = db.database_query(sql1)
+        sql2 = 'SELECT * FROM `csv_association`'
+        association_results = db.database_query(sql2)
+    return render_template("import_data.html", account_results=account_results, association_results=association_results)
 
 @views.route('/import_data_staging', methods=['GET', 'POST'])
 def import_data_staging():
