@@ -159,9 +159,15 @@ def import_data_staging():
         file = request.files['file']
         if file and allowed_file(file.filename):
                 try:
+                    import_type = request.form.get('import_type')
+                    account_association = request.form.get('account_association')
+                    csv_association = request.form.get('csv_association')
+                    csv_association_select = request.form.get('csv_association_select')
+                    print(import_type, account_association, csv_association, csv_association_select)
                     df = pd.read_csv(file)
                     return render_template("import_data_staging.html", df=df)
                 except pd.errors.EmptyDataError:
                     flash('File cannot be parsed.', category='error')
                     return redirect(url_for('views.import_data'))
+    flash('Wrong file type selected', category='error')
     return redirect(url_for('views.import_data'))

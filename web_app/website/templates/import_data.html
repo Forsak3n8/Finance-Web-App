@@ -67,8 +67,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="p-3">
+                    <div id="account_association_div" class="col">
+                        <div id="account_association_div" class="p-3">
                             <label id="account_association_label" for="account_association" class="form-label" style="display:none">Select an account association</label>
                             <select class="form-select" id="account_association" name="account_association" style="display:none" required>
                                 <option selected disabled value="">Choose...</option>
@@ -81,8 +81,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="p-3">
+                    <div id="csv_association_div" class="col">
+                        <div id="csv_association_div" class="p-3">
                             <label id="csv_association_label" for="csv_association" class="form-label" style="display:none">Enter name for CSV file association</label>
                             <input type="text" class="form-control" id="csv_association" placeholder="" name="csv_association" style="display:none" required>
                             <div class="invalid-feedback">
@@ -137,29 +137,51 @@
 <script>
     var import_check = document.getElementById("import_type");
     import_check.onchange=import_change;
+
+    document.getElementById("account_association_label").style.display = "none";
+    document.getElementById("account_association").style.display = "none";
+    document.getElementById("account_association").disabled = true;
+    document.getElementById("csv_association_label").style.display = "none";
+    document.getElementById("csv_association").style.display = "none";
+    document.getElementById("csv_association").disabled = true;
+    document.getElementById("csv_association_select_label").style.display = "none";
+    document.getElementById("csv_association_select").style.display = "none";
+    document.getElementById("csv_association_select").disabled = true;
+
     function import_change()
     {   
     var import_check = document.getElementById("import_type");
     var selected_value = import_check.options[import_check.selectedIndex].value;
 
+    
 
     if (selected_value == "new_import")
     {
         document.getElementById("account_association_label").style.display = "block";
+        document.getElementById("account_association_div").style.display = "block";
         document.getElementById("account_association").style.display = "block";
+        document.getElementById("account_association").disabled = false;
         document.getElementById("csv_association_label").style.display = "block";
+        document.getElementById("csv_association_div").style.display = "block";
         document.getElementById("csv_association").style.display = "block";
+        document.getElementById("csv_association").disabled = false;
         document.getElementById("csv_association_select_label").style.display = "none";
         document.getElementById("csv_association_select").style.display = "none";
+        document.getElementById("csv_association_select").disabled = true;
     }
     else
     {
         document.getElementById("account_association_label").style.display = "none";
+        document.getElementById("account_association_div").style.display = "none";
         document.getElementById("account_association").style.display = "none";
+        document.getElementById("account_association").disabled = true;
         document.getElementById("csv_association_label").style.display = "none";
+        document.getElementById("csv_association_div").style.display = "none";
         document.getElementById("csv_association").style.display = "none";
+        document.getElementById("csv_association").disabled = true;
         document.getElementById("csv_association_select_label").style.display = "block";
         document.getElementById("csv_association_select").style.display = "block";
+        document.getElementById("csv_association_select").disabled = false;
     }
 }
 </script>
